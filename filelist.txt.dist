@@ -1,0 +1,19 @@
+# <directory>	<time>	<presence_flag>	<recursive_flag>
+# 
+# Params: 
+# 	- <directory>		directory to check. ej. /opt
+# 	- <time>		time to be used in "find <directory> -mtime <time>". Must be in "find" time ormat. Ej. -2 (two days ago until now)
+#	- <presence_flag>	"0" value means "absence of files"
+#				"1" means "presence of files"
+#	- <recursive_flag>	"0" value means "don't do the recursive check"
+#				"1" value means "do the check recursively"
+#
+# Examples:
+#	* Check in /usr/bin the "absence" of new files in last week (7 days ago until now), non recursively
+#	/usr/bin	-7	0	0
+#
+#	* Check /var/backups/localhost/daily the presence of new files (two days ago until now), recursively
+#	/var/backups/localhost/daily	-2	1	1
+#
+
+/opt	-7	1	1
