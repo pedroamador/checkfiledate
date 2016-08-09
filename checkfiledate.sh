@@ -26,7 +26,7 @@ fi
 #
 print_exec_mode ()
 {
-   echo -e "\n\tEXECUTION MODE =>\t$0 [mailtest]\n"
+   echo -e "\n\tEXECUTION MODE =>\t$0 [mailtest|dryrun]\n"
 }
 
 # Check for optional "mailtest" parameter
@@ -38,10 +38,12 @@ then
         print_exec_mode
         exit 1
     else
-        if [ "$1" != "mailtest" ]
+        if [ "$1" != "mailtest" ] && [ $1 != "dryrun" ]
         then
             print_exec_mode
             exit 1
+        else
+            echo "$1 mode"
         fi
     fi
 fi
@@ -134,7 +136,7 @@ do
         then
             echo "[OK]"
         else
-            echo -n "[ERROR]"
+            echo "[ERROR]"
             sendemail=1
         fi
     else
@@ -142,7 +144,7 @@ do
         then
             echo "[OK]"
         else
-            echo -n "[ERROR]"
+            echo "[ERROR]"
             sendemail=1
         fi
     fi
@@ -152,9 +154,14 @@ do
         returnvalue=1
         for targetmail in ${maillist}
         do
-            echo -e -n "\t\tSending mail to ${targetmail}..."
-            echo -e "Hostname: $(hostname -f)\nDate: $(date)\nCheck #${item}\n- Config line: ${itemcheck[$item]}\n- Check type: ${checktype}\nCommand: ${find_command}\nResult:\n================ CUT HERE ================\n${result_console}\n================ CUT HERE ================" | mail ${targetmail} -s "[$(hostname)] CHECKFILEDATE ERROR"
-            echo -e " [ok]"
+            if [ "$1" == "dryrun" ]
+            then
+                echo -e "\t\tdryrun mode, don't send email to ${targetmail}"
+            else
+                echo -e -n "\t\tSending mail to ${targetmail}..."
+                echo -e "Hostname: $(hostname -f)\nDate: $(date)\nCheck #${item}\n- Config line: ${itemcheck[$item]}\n- Check type: ${checktype}\nCommand: ${find_command}\nResult:\n================ CUT HERE ================\n${result_console}\n================ CUT HERE ================" | mail ${targetmail} -s "[$(hostname)] CHECKFILEDATE ERROR"
+                echo -e " [ok]"
+            fi
         done
     fi
 done
