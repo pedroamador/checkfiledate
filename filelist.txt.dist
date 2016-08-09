@@ -19,4 +19,8 @@
 #
 # You can put more than one config line
 #
-/opt	-7	1	1
+
+# "pvebackup" config
+# /var/backups/localhost/daily	-2	1	1
+# /var/backups/localhost/weekly	-14	1	1
+# /var/backups/localhost/monthly	-40	1	1
