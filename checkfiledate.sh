@@ -30,7 +30,6 @@ print_exec_mode ()
 }
 
 # Check for optional "mailtest" parameter
-
 if [ $# -ne 0 ]
 then
     if [ $# -ne 1 ]
@@ -50,6 +49,7 @@ fi
 
 cd $(dirname $0)
 
+# Get config
 echo "Reading config..."
 maillist=""
 if [ ! -f maillist.txt ]
@@ -65,7 +65,6 @@ else
         fi
     done < maillist.txt
 fi
-
 items=0
 if [ ! -f filelist.txt ]
 then
@@ -91,6 +90,7 @@ else
 fi
 echo -e  "Config reading done... do the checks\n"
 
+# Mailtest option
 if [ "$1" == "mailtest" ]
 then
     for targetmail in ${maillist}
@@ -102,6 +102,7 @@ then
     exit 0
 fi
 
+# Do the checks
 returnvalue=0
 for item in $(seq 1 $items)
 do
@@ -165,4 +166,24 @@ do
         done
     fi
 done
+
+# Send weekly test mail (only if not dryrun)
+if [ ${returnvalue} -eq 0 ]
+then
+    if [ $(date +%u) -eq 0 ]
+    then
+        echo -e "\nWEEKLY MAIL TEST"
+        for targetmail in ${maillist}
+        do
+            if [ "$1" == "dryrun" ]
+            then
+                echo -e "\tdryrun mode, don't send weekly eemail test to ${targetmail}"
+            else
+                echo -e -n "\tSending weekly mail test to ${targetmail}..."
+                echo -e "Hostname: $(hostname -f)\nDate: $(date)\nWeekly mail test" | mail ${targetmail} -s "[$(hostname)] CHECKFILEDATE WEEKLY MAIL TEST"
+                echo -e " [ok]"
+            fi
+        done
+    fi
+fi
 exit ${returnvalue}

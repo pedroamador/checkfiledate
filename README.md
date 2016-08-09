@@ -6,7 +6,7 @@ The aim of "checkfiledate" is to search for new files in a specific directory, a
 
 You must install a mail server (like "sendmail", "exim", "postfix"), a mail client (like "mail") and "find" plus "egrep" utilities.
 
-## Mode of use
+## Use mode
 
 1. Create a file called "filelist.txt" (there is a template in "filelist.txt.dist" with instructions)
 2. Create a file called "maillist.txt", with one mail address per line
@@ -19,4 +19,16 @@ You must install a mail server (like "sendmail", "exim", "postfix"), a mail clie
 
 4. Stay tuned to your mail inbox!
 
-You can test the email functionality by executing "./checkfiledate.sh mailtest"
+There is two posible parameters:
+
+* mailtest => Send email to al target address in "maillist.txt"
+
+    $ ./checkfiledate.sh mailtest
+
+* dryrun => Do the check, but without sending any mail
+
+    $ ./checkfiledate.sh dryrun
+
+## Weekly test email
+
+If you run the script in the weekday 0 (sunday), it send a "checkpoint" mail with "WEEKLY TEST EMAIL" subject
