@@ -1,3 +1,5 @@
+# One line per configuration. Line format
+#
 # <directory>	<time>	<presence_flag>	<recursive_flag>
 # 
 # Params: 
@@ -15,5 +17,6 @@
 #	* Check /var/backups/localhost/daily the presence of new files (two days ago until now), recursively
 #	/var/backups/localhost/daily	-2	1	1
 #
-
+# You can put more than one config line
+#
 /opt	-7	1	1
