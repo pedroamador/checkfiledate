@@ -112,10 +112,10 @@ do
     echo -e -n "\tCheck type..: "
     if [ ${itemrecursive[$item]} -eq 0 ]
     then
-        checktype="RECURSIVE"
+        checktype="NON RECURSIVE"
         maxdepth="-maxdepth 1"
     else
-        checktype="NON RECURSIVE"
+        checktype="RECURSIVE"
         maxdepth=""
     fi
     if [ ${itempresence[$item]} -eq 0 ]
