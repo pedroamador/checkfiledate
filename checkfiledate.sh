@@ -107,9 +107,6 @@ returnvalue=0
 for item in $(seq 1 $items)
 do
     sendemail=0
-    find_command="find ${itemdirectory[$item]} ${maxdepth} -mtime ${itemtime[$item]} | egrep '.*'"
-    echo "- Check config $item:"
-    echo -e -n "\tCheck type..: "
     if [ ${itemrecursive[$item]} -eq 0 ]
     then
         checktype="NON RECURSIVE"
@@ -118,6 +115,9 @@ do
         checktype="RECURSIVE"
         maxdepth=""
     fi
+    find_command="find ${itemdirectory[$item]} ${maxdepth} -mtime ${itemtime[$item]} | egrep '.*'"
+    echo "- Check config $item:"
+    echo -e -n "\tCheck type..: "
     if [ ${itempresence[$item]} -eq 0 ]
     then
         checktype="${checktype} / ABSENCE OF FILES"
