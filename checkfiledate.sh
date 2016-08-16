@@ -170,7 +170,7 @@ done
 # Send weekly test mail (only if not dryrun)
 if [ ${returnvalue} -eq 0 ]
 then
-    if [ $(date +%u) -eq 0 ]
+    if [ $(date +%u) -eq 7 ]
     then
         echo -e "\nWEEKLY MAIL TEST"
         for targetmail in ${maillist}
