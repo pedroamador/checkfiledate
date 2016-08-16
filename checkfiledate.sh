@@ -96,7 +96,7 @@ then
     for targetmail in ${maillist}
     do
         echo -e -n "Sending mail to ${targetmail}..."
-        echo -e "Hostname: $(hostname -f)\nDate: $(date)\nCheck #0: test\n" | mail ${targetmail} -s "[$(hostname)] CHECKFILEDATE TEST"
+        echo -e "Hostname: $(hostname -f)\nDate: $(date)\nCheck #0: test\n" | mail -s "[$(hostname)] CHECKFILEDATE TEST" ${targetmail}
         echo -e " [ok]"
     done
     exit 0
@@ -107,9 +107,6 @@ returnvalue=0
 for item in $(seq 1 $items)
 do
     sendemail=0
-    find_command="find ${itemdirectory[$item]} ${maxdepth} -mtime ${itemtime[$item]} | egrep '.*'"
-    echo "- Check config $item:"
-    echo -e -n "\tCheck type..: "
     if [ ${itemrecursive[$item]} -eq 0 ]
     then
         checktype="NON RECURSIVE"
@@ -118,6 +115,9 @@ do
         checktype="RECURSIVE"
         maxdepth=""
     fi
+    find_command="find ${itemdirectory[$item]} ${maxdepth} -mtime ${itemtime[$item]} | egrep '.*'"
+    echo "- Check config $item:"
+    echo -e -n "\tCheck type..: "
     if [ ${itempresence[$item]} -eq 0 ]
     then
         checktype="${checktype} / ABSENCE OF FILES"
@@ -160,7 +160,7 @@ do
                 echo -e "\t\tdryrun mode, don't send email to ${targetmail}"
             else
                 echo -e -n "\t\tSending mail to ${targetmail}..."
-                echo -e "Hostname: $(hostname -f)\nDate: $(date)\nCheck #${item}\n- Config line: ${itemcheck[$item]}\n- Check type: ${checktype}\nCommand: ${find_command}\nResult:\n================ CUT HERE ================\n${result_console}\n================ CUT HERE ================" | mail ${targetmail} -s "[$(hostname)] CHECKFILEDATE ERROR"
+                echo -e "Hostname: $(hostname -f)\nDate: $(date)\nCheck #${item}\n- Config line: ${itemcheck[$item]}\n- Check type: ${checktype}\nCommand: ${find_command}\nResult:\n================ CUT HERE ================\n${result_console}\n================ CUT HERE ================" | mail -s "[$(hostname)] CHECKFILEDATE ERROR" ${targetmail}
                 echo -e " [ok]"
             fi
         done
@@ -180,7 +180,7 @@ then
                 echo -e "\tdryrun mode, don't send weekly eemail test to ${targetmail}"
             else
                 echo -e -n "\tSending weekly mail test to ${targetmail}..."
-                echo -e "Hostname: $(hostname -f)\nDate: $(date)\nWeekly mail test" | mail ${targetmail} -s "[$(hostname)] CHECKFILEDATE WEEKLY MAIL TEST"
+                echo -e "Hostname: $(hostname -f)\nDate: $(date)\nWeekly mail test" | mail -s "[$(hostname)] CHECKFILEDATE WEEKLY MAIL TEST" ${targetmail}
                 echo -e " [ok]"
             fi
         done
